@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Shouldly;
 using Xunit.Abstractions;
 
 namespace Rockaway.WebApp.Tests.Pages;
@@ -8,7 +9,6 @@ public class PageTests {
 	public PageTests(ITestOutputHelper helper) {
 		this.helper = helper;
 	}
-
 
 	[Fact]
 	public async Task Index_Page_Returns_Success() {
@@ -31,7 +31,6 @@ public class PageTests {
 		await using var factory = new WebApplicationFactory<Program>();
 		using var client = factory.CreateClient();
 		var html = await client.GetStringAsync("/privacy");
-		helper.WriteLine("HELLO WORLD!");
-		helper.WriteLine(html);
+		html.ShouldContain("privacy@rockaway.dev");
 	}
 }
