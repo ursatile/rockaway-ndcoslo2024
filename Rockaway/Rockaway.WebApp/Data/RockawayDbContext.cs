@@ -11,9 +11,14 @@ namespace Rockaway.WebApp.Data;
 public class RockawayDbContext(DbContextOptions<RockawayDbContext> options) : DbContext(options) {
 
 	public DbSet<Artist> Artists { get; set; } = default!;
-	public DbSet<Venue> Venue { get; set; } = default!;
+	public DbSet<Venue> Venues { get; set; } = default!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
+		// Override EF Core's default table naming (which pluralizes entity names)
+		// and use the same names as the C# classes instead
+		foreach (var entity in modelBuilder.Model.GetEntityTypes()) {
+			entity.SetTableName(entity.DisplayName());
+		}
 		base.OnModelCreating(modelBuilder);
 		modelBuilder.Entity<Artist>().HasIndex(a => a.Slug).IsUnique();
 		modelBuilder.Entity<Venue>().HasIndex(v => v.Slug).IsUnique();
