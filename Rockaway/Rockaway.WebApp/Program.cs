@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Rockaway.WebApp.Data;
@@ -27,6 +28,10 @@ if (builder.Environment.UseSqlite()) {
 	builder.Services.AddDbContext<RockawayDbContext>(options => options.UseSqlServer(connectionString));
 
 }
+
+builder.Services
+	.AddDefaultIdentity<IdentityUser>()
+	.AddEntityFrameworkStores<RockawayDbContext>();
 
 var app = builder.Build();
 
