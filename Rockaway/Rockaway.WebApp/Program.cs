@@ -37,6 +37,5 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
-app.MapGet("/artists", (RockawayDbContext db) => db.Artists.ToList());
 app.Run();
 

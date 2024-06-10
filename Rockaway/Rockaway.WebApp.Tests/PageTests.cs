@@ -28,6 +28,8 @@ public class PageTests {
 		response.EnsureSuccessStatusCode();
 	}
 
+
+
 	[Fact]
 	public async Task Privacy_Page_Includes_Email_Address() {
 		var browsingContext = BrowsingContext.New(Configuration.Default);
