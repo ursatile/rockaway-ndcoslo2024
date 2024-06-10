@@ -16821,6 +16821,19 @@ body > header {
   display: flex;
   justify-content: space-between;
 }
+body > header nav a {
+  background: #336699;
+  display: inline-block;
+  padding: 4px 16px;
+  color: #212529;
+  font-size: 120%;
+  border-radius: 0.375rem;
+  text-decoration: none;
+}
+body > header nav a:hover {
+  color: #212529;
+  background: #1a334d;
+}
 body > header h1 a, body > header .h1 a {
   display: block;
   font-size: 0;
@@ -16841,6 +16854,22 @@ body > footer {
   padding: 0.75rem;
   background-color: #0d1a26;
   border: 1px solid #212529;
+  font-size: 80%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+body > footer nav a {
+  color: #212529;
+  display: inline-block;
+  border-left: 1px solid #fff;
+  padding: 0 0.5em;
+}
+body > footer nav a:first-child {
+  border: none;
+}
+body > footer nav a:hover {
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=frontend.css.map */
