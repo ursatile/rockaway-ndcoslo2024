@@ -14,6 +14,7 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options) : Db
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
+		modelBuilder.Entity<Artist>().HasIndex(a => a.Slug).IsUnique();
 		modelBuilder.Entity<Artist>().HasData(SampleData.Artists.AllArtists);
 	}
 }
