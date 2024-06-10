@@ -5,7 +5,7 @@ using Rockaway.WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IStatusReporter, StatusReporter>();
 
@@ -35,7 +35,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
-app.MapRazorPages();
-app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
-app.Run();
 
+app.MapRazorPages();
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
+
+app.Run();
