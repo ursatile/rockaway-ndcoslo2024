@@ -1,3 +1,4 @@
+using AngleSharp;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Shouldly;
 using Xunit.Abstractions;
@@ -28,9 +29,14 @@ public class PageTests {
 
 	[Fact]
 	public async Task Privacy_Page_Includes_Email_Address() {
+		var browsingContext = BrowsingContext.New(Configuration.Default);
+
 		await using var factory = new WebApplicationFactory<Program>();
 		using var client = factory.CreateClient();
 		var html = await client.GetStringAsync("/privacy");
-		html.ShouldContain("privacy@rockaway.dev");
+		var dom = await browsingContext.OpenAsync(req => req.Content(html));
+		var privacyLink = dom.QuerySelector("a#privacy-email-link");
+		privacyLink.ShouldNotBeNull();
+		privacyLink.InnerHtml.ShouldBe("privacy@rockaway.dev");
 	}
 }
