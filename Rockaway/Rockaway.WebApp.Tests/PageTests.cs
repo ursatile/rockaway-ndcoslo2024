@@ -1,13 +1,17 @@
-// Rockaway.WebApp.Tests/Pages/PageTests.cs
-
 using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit.Abstractions;
 
 namespace Rockaway.WebApp.Tests.Pages;
-public class PageTests
-{
+public class PageTests {
+	private readonly ITestOutputHelper helper;
+
+	public PageTests(ITestOutputHelper helper) {
+		this.helper = helper;
+	}
+
+
 	[Fact]
-	public async Task Index_Page_Returns_Success()
-	{
+	public async Task Index_Page_Returns_Success() {
 		await using var factory = new WebApplicationFactory<Program>();
 		using var client = factory.CreateClient();
 		using var response = await client.GetAsync("/");
@@ -15,12 +19,19 @@ public class PageTests
 	}
 
 	[Fact]
-	public async Task Privacy_Page_Returns_Success()
-	{
+	public async Task Privacy_Page_Returns_Success() {
 		await using var factory = new WebApplicationFactory<Program>();
 		using var client = factory.CreateClient();
 		using var response = await client.GetAsync("/privacy");
 		response.EnsureSuccessStatusCode();
 	}
 
+	[Fact]
+	public async Task Privacy_Page_Includes_Email_Address() {
+		await using var factory = new WebApplicationFactory<Program>();
+		using var client = factory.CreateClient();
+		var html = await client.GetStringAsync("/privacy");
+		helper.WriteLine("HELLO WORLD!");
+		helper.WriteLine(html);
+	}
 }
