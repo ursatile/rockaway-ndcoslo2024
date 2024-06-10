@@ -36,6 +36,10 @@ builder.Services
 	.AddDefaultIdentity<IdentityUser>()
 	.AddEntityFrameworkStores<RockawayDbContext>();
 
+#if DEBUG
+builder.Services.AddSassCompiler();
+#endif
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
