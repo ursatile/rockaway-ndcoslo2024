@@ -4,6 +4,7 @@ using Shouldly;
 using Xunit.Abstractions;
 
 namespace Rockaway.WebApp.Tests.Pages;
+
 public class PageTests {
 	private readonly ITestOutputHelper helper;
 
