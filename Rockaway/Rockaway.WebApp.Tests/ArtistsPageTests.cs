@@ -18,7 +18,7 @@ public class ArtistTests {
 	public async Task Artist_Detail_Page_Contains_Artist(Artist artist) {
 		await using var factory = new WebApplicationFactory<Program>();
 		var client = factory.CreateClient();
-		var html = await client.GetStringAsync($"/artists/{artist.Slug}");
+		var html = await client.GetStringAsync($"/artists/details/{artist.Id}");
 		var decodedHtml = WebUtility.HtmlDecode(html);
 		decodedHtml.ShouldContain(artist.Name);
 		decodedHtml.ShouldContain(artist.Description);
