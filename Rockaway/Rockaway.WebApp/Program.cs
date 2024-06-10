@@ -1,7 +1,10 @@
+using Rockaway.WebApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<IStatusReporter, StatusReporter>();
 
 builder.Services.Configure<RouteOptions>(options
 	=> options.LowercaseUrls = true);
@@ -17,11 +20,10 @@ if (!app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapRazorPages();
-
+app.MapGet("/status", (IStatusReporter reporter)
+	=> reporter.GetStatus());
 app.Run();
+
