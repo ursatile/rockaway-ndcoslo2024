@@ -3,6 +3,12 @@
 
 // 2. Include any default variable overrides here
 
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
+$font-family-sans-serif: 'PT Sans Narrow', Arial, Helvetica, sans-serif;
+
+$body-bg-dark: #000;
+$primary: #336699;
+
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "../lib/bootstrap/scss/variables";
 @import "../lib/bootstrap/scss/variables-dark";
