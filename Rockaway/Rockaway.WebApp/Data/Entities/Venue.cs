@@ -51,6 +51,9 @@ public class Venue {
 
 	public List<Show> Shows { get; set; } = [];
 
+	public string FullAddress
+		=> String.Join(", ", [Address, City, PostalCode]);
+
 	public Show BookShow(Artist artist, LocalDate date) {
 		var show = new Show {
 			Venue = this,

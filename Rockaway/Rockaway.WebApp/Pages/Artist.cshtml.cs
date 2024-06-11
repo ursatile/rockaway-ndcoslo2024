@@ -1,18 +1,22 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Rockaway.WebApp.Data;
-using Rockaway.WebApp.Data.Entities;
+using Rockaway.WebApp.Models;
 
 namespace Rockaway.WebApp.Pages;
 
 public class ArtistModel(RockawayDbContext db) : PageModel {
-	public Artist Artist = default!;
+	public ArtistViewData Artist = default!;
 
-	public void OnGet(string slug) {
+	public IActionResult OnGet(string slug) {
 		var artist = db.Artists
+			.Include(a => a.HeadlineShows)
+			.ThenInclude(show => show.Venue)
+			.Include(a => a.HeadlineShows)
+			.ThenInclude(show => show.SupportSlots)
+			.ThenInclude(slot => slot.Artist)
 			.Include(a => a.Endorsements)
-			.FirstOrDefault(a => a.Slug == slug)!;
-		// TODO: return not found
-		// if (artist == default)
-		Artist = artist;
+			.FirstOrDefault(a => a.Slug == slug);
+		if (artist == default) return NotFound();
+		Artist = new(artist);
+		return Page();
 	}
 }

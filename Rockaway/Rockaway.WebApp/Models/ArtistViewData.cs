@@ -11,10 +11,17 @@ public class ArtistViewData(Artist artist) {
 
 	public string Slug { get; } = artist.Slug;
 
+	public string[] Brands
+		=> artist.Endorsements.Select(b => b.Product).ToArray();
+
 	public string Description { get; } = artist.Description;
 
 	public string GetImageUrl(int width, int height)
 		=> String.Format(CLOUDINARY_URL_TEMPLATE, width, height, Slug);
 
 	public string CssClass => Name.Length > 20 ? "long-name" : "";
+
+	public IEnumerable<ShowViewData> Shows => artist.HeadlineShows
+		.OrderBy(show => show.Date).Select(show => new ShowViewData(show));
+
 }
