@@ -4,6 +4,19 @@ namespace Rockaway.WebApp.Data.Sample;
 
 public static partial class SampleData {
 
+	public static class Brands {
+		private static int seed = 1;
+		private static Guid NextId => TestGuid(seed++, 'e');
+
+		public static IEnumerable<Brand> AllBrands => [
+				Nike, Pingvin, PepsiCola
+			];
+
+		public static Brand Nike = new(NextId, "Nike");
+		public static Brand Pingvin = new(NextId, "Pingvin");
+		public static Brand PepsiCola = new(NextId, "Pepsi-Cola");
+	}
+
 	public static class Venues {
 		private static int seed = 1;
 		private static Guid NextId => TestGuid(seed++, 'b');

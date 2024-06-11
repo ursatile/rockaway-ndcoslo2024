@@ -3,8 +3,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rockaway.WebApp.Data.Entities;
-using Rockaway.WebApp.Data.Sample;
+using System.Linq.Expressions;
 
 namespace Rockaway.WebApp.Data;
 
@@ -15,6 +16,13 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 
 	public DbSet<Artist> Artists { get; set; } = default!;
 	public DbSet<Venue> Venues { get; set; } = default!;
+	public DbSet<Show> Shows { get; set; } = default!;
+	public DbSet<Brand> Brands { get; set; } = default!;
+
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder) {
+		base.ConfigureConventions(configurationBuilder);
+		configurationBuilder.AddNodaTimeConverters();
+	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
@@ -25,16 +33,41 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 		foreach (var entity in rockawayEntities) {
 			entity.SetTableName(entity.DisplayName());
 		}
-		modelBuilder.Entity<Artist>().HasIndex(a => a.Slug).IsUnique();
-		modelBuilder.Entity<Venue>().HasIndex(v => v.Slug).IsUnique();
+
+		modelBuilder.Entity<Artist>(entity => {
+			entity.HasIndex(artist => artist.Slug).IsUnique();
+			entity.HasMany(a => a.HeadlineShows)
+				.WithOne(s => s.HeadlineArtist)
+				.OnDelete(DeleteBehavior.Restrict);
+			entity.HasMany(a => a.Endorsements)
+				.WithMany(e => e.Artists);
+		});
+
+		modelBuilder.Entity<Venue>(entity => {
+			entity.HasIndex(venue => venue.Slug).IsUnique();
+			entity.HasMany(v => v.Shows)
+				.WithOne(s => s.Venue)
+				.OnDelete(DeleteBehavior.Restrict);
+		});
+
+		modelBuilder.Entity<Show>(entity => {
+			entity.HasKey(show => show.Venue.Id, show => show.Date);
+			entity.HasMany(show => show.SupportSlots)
+				.WithOne(ss => ss.Show).OnDelete(DeleteBehavior.Cascade);
+		});
+
+		modelBuilder.Entity<Show>().HasKey(
+			show => show.Venue.Id,
+			show => show.Date
+		);
+
+		modelBuilder.Entity<SupportSlot>().HasKey(
+			slot => slot.Show.Venue.Id,
+			slot => slot.Show.Date,
+			slot => slot.SlotNumber
+		);
+
 		modelBuilder.AddSampleData();
 	}
 }
 
-public static class DbContextExtensions {
-	public static void AddSampleData(this ModelBuilder modelBuilder) {
-		modelBuilder.Entity<Artist>().HasData(SampleData.Artists.AllArtists);
-		modelBuilder.Entity<Venue>().HasData(SampleData.Venues.AllVenues);
-		modelBuilder.Entity<IdentityUser>().HasData(SampleData.Users.Admin);
-	}
-}
