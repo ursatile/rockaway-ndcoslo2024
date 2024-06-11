@@ -1,4 +1,3 @@
-// Rockaway.WebApp/Services/ServerStatus.cs
 namespace Rockaway.WebApp.Services;
 
 public class ServerStatus {
