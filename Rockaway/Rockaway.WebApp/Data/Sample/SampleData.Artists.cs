@@ -210,13 +210,20 @@ public static partial class SampleData {
 			"silver-mountain-string-band"
 		);
 
+		public static Artist Linebreakers = new(
+			NextId,
+			"The Linebreakers",
+			"The Linebreakers is the world's greatest internet comedy classic rock disco alt punk covers band.\r\n\r\nLive covers of classic tunes, from ABBA and Adele to Metallica and Nirvana, with the lyrics lovingly reworked to see how many stupid jokes about programming, technology and the web will fit into a four-minute pop song. The tech industry’s answer to Weird Al Yankovic",
+			"the-linebreakers"
+		);
+
 		public static IEnumerable<Artist> AllArtists = new[] {
 			AlterColumn, BodyBag, Coda, DevLeppard, Elektronika, ForEarTransform,
 			GarbageCollectors, HaskellsAngels, IronMedian, JavasCrypt, KillerBite,
 			LambdaOfGod, MottTheTuple, NullTerminatedStringBand, Overflow, PascalsWager,
 			QuantumGate, RunCmd, ScriptKiddies, Terrorform, Unicoder,
 			VirtualMachine, WebmasterOfPuppets, Xslte, Yamb, ZeroBasedIndex,
-			Ærbårn, DotDotDot, SilverMountainStringBand
+			Ærbårn, DotDotDot, SilverMountainStringBand, Linebreakers
 		};
 	}
 }

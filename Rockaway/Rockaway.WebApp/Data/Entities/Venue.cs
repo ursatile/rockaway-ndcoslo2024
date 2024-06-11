@@ -72,4 +72,12 @@ public class Venue {
 		return show;
 	}
 
+	public CultureInfo Culture
+		=> CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+			   .FirstOrDefault(ci => ci.Name == CultureName)
+		   ??
+		   CultureInfo.InvariantCulture;
+
+	public string FormatPrice(decimal price)
+		=> price.ToString("C", Culture);
 }

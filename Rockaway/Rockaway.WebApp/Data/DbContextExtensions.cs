@@ -21,6 +21,9 @@ public static class DbContextExtensions {
 		modelBuilder.Entity<Brand>()
 			.HasData(SeedData.For(SampleData.Brands.AllBrands));
 
+		modelBuilder.Entity<TicketType>()
+			.HasData(SeedData.For(SampleData.Shows.AllTicketTypes));
+
 		modelBuilder.Entity<IdentityUser>().HasData(SampleData.Users.Admin);
 	}
 }

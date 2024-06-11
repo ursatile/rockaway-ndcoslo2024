@@ -73,6 +73,7 @@ app.MapAreaControllerRoute(
 
 app.MapRazorPages();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+app.MapControllers();
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
 
 app.MapGet("/api/artists/{slug}/shows", (string slug, RockawayDbContext db) => {

@@ -33,7 +33,7 @@ public static partial class SampleData {
 		public static Venue Columbia = new(NextId, "Columbia Theatre", "columbia-berlin", "Columbiadamm 9 - 11", "Berlin", new("de-DE"), "10965",
 			"+49 30 69817584", "https://columbia-theater.de/");
 
-		public static Venue Gagarin = new(NextId, "Gagarin 205", "gagarin-athens", "Liosion 205", "Athens", new("he-GR"), "104 45",
+		public static Venue Gagarin = new(NextId, "Gagarin 205", "gagarin-athens", "Liosion 205", "Athens", new("el-GR"), "104 45",
 			"+45 35 35 50 69", "");
 
 		public static Venue JohnDee = new(NextId, "John Dee Live Club & Pub", "john-dee-oslo", "Torggata 16", "Oslo", new("nb-NO"), "0181",
@@ -51,6 +51,9 @@ public static partial class SampleData {
 		public static Venue NewCrossInn = new(NextId, "New Cross Inn", "new-cross-inn-london", "323 New Cross Road", "London", new("en-GB"), "SE14 6AS",
 			"+44 20 8469 4382", "https://www.newcrossinn.com/");
 
+		public static Venue Brewgata = new(NextId, "Brewgata", "brewgata-oslo", "Brugata 5", "Oslo", new("nb-NO"), "0186",
+			"+47 48 39 27 57", "https://brewgata.no/");
+
 		public static Venue[] AllVenues => [
 			Electric,
 			Bataclan,
@@ -60,7 +63,8 @@ public static partial class SampleData {
 			Stengade,
 			Barracuda,
 			PubAnchor,
-			NewCrossInn
+			NewCrossInn,
+			Brewgata
 		];
 	}
 }

@@ -56,6 +56,13 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 			entity.HasKey(show => show.Venue.Id, show => show.Date);
 			entity.HasMany(show => show.SupportSlots)
 				.WithOne(ss => ss.Show).OnDelete(DeleteBehavior.Cascade);
+
+			entity.HasMany(show => show.TicketTypes)
+				.WithOne(tt => tt.Show).OnDelete(DeleteBehavior.Cascade);
+		});
+
+		modelBuilder.Entity<TicketType>(entity => {
+			entity.Property(tt => tt.Price).HasColumnType("money");
 		});
 
 		modelBuilder.Entity<Show>().HasKey(
