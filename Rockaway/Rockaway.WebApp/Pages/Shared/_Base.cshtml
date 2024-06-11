@@ -7,10 +7,12 @@
 	<title>@(ViewData["Title"] ?? "Rockaway")</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/frontend.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/Rockaway.WebApp.styles.css" asp-append-version="true"/>
 	@await RenderSectionAsync("Head", required: false)
-	<!-- Required for Razor Component support -->
-	<base href="~/"/>
-	<link rel="stylesheet" href="~/Rockaway.WebApp.styles.css" asp-append-version="true" />
+
+	<base href="~/" />
+	<component type="typeof(Microsoft.AspNetCore.Components.Web.HeadOutlet)"
+	           render-mode="ServerPrerendered" />
 </head>
 <body class="container">
 @RenderBody()

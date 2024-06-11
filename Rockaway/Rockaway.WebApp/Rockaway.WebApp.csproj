@@ -9,15 +9,12 @@
 	<ItemGroup>
 		<Content Remove="wwwroot\scss\frontend.scss" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Components\TicketPicker.razor.css" />
-	</ItemGroup>
 	<ItemGroup>
 		<InternalsVisibleTo Include="Rockaway.WebApp.Tests" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.SassCompiler" Version="1.77.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
@@ -41,10 +38,10 @@
 		<UpToDateCheckInput Remove="wwwroot\scss\frontend.scss" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="Components\TicketPicker.razor.css" />
+		<None Include="wwwroot\scss\frontend.scss" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="wwwroot\scss\frontend.scss" />
+	  <ProjectReference Include="..\Rockaway.RazorComponents\Rockaway.RazorComponents.csproj" />
 	</ItemGroup>
 
 </Project>

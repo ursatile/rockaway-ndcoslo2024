@@ -61,6 +61,7 @@ builder.Services.AddSassCompiler();
 #endif
 
 builder.Services.AddRazorComponents()
+	.AddInteractiveWebAssemblyComponents()
 	.AddInteractiveServerComponents();
 
 var app = builder.Build();
@@ -111,6 +112,7 @@ app.MapGet("/api/artists/{slug}/shows", (string slug, RockawayDbContext db) => {
 });
 
 app.MapRazorComponents<App>()
+	.AddInteractiveWebAssemblyRenderMode()
 	.AddInteractiveServerRenderMode();
 
 app.Run();
