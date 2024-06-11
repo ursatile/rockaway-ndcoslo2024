@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +25,7 @@ public class Artist {
 		this.Slug = slug;
 	}
 
+	[JsonIgnore]
 	public List<Show> HeadlineShows { get; set; } = [];
 
 	public List<Brand> Endorsements { get; set; } = [];

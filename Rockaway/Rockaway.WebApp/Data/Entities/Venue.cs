@@ -59,9 +59,6 @@ public class Venue {
 
 	public List<Show> Shows { get; set; } = [];
 
-	public string FullAddress
-		=> String.Join(", ", [Address, City, PostalCode]);
-
 	public Show BookShow(Artist artist, LocalDate date) {
 		var show = new Show {
 			Venue = this,
@@ -80,4 +77,10 @@ public class Venue {
 
 	public string FormatPrice(decimal price)
 		=> price.ToString("C", Culture);
+
+	private IEnumerable<string?> AddressTokens => [Address, City, PostalCode];
+	public string FullAddress => String.Join(", ", AddressTokens.Where(s => !String.IsNullOrWhiteSpace(s)));
+
+	private IEnumerable<string?> SummaryTokens => [Name, Address, City, PostalCode, Country.GetName(CountryCode)];
+	public string Summary => String.Join(", ", SummaryTokens.Where(s => !String.IsNullOrWhiteSpace(s)));
 }

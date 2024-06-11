@@ -19,6 +19,7 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 	public DbSet<Venue> Venues { get; set; } = default!;
 	public DbSet<Show> Shows { get; set; } = default!;
 	public DbSet<Brand> Brands { get; set; } = default!;
+	public DbSet<TicketOrder> TicketOrders { get; set; } = default!;
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder) {
 		base.ConfigureConventions(configurationBuilder);
@@ -27,13 +28,11 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
+		// Override EF Core's default table naming (which pluralizes entity names)
+		// and use the same names as the C# classes instead
 		var rockawayEntityNamespace = typeof(Artist).Namespace;
-		var rockawayEntities = modelBuilder.Model
-			.GetEntityTypes().Where(e =>
-				e.ClrType.Namespace == rockawayEntityNamespace);
-		foreach (var entity in rockawayEntities) {
-			entity.SetTableName(entity.DisplayName());
-		}
+		var rockawayEntities = modelBuilder.Model.GetEntityTypes().Where(e => e.ClrType.Namespace == rockawayEntityNamespace);
+		foreach (var entity in rockawayEntities) entity.SetTableName(entity.DisplayName());
 
 		modelBuilder.Entity<Artist>(entity => {
 			entity.HasIndex(artist => artist.Slug).IsUnique();
@@ -59,6 +58,10 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 
 			entity.HasMany(show => show.TicketTypes)
 				.WithOne(tt => tt.Show).OnDelete(DeleteBehavior.Cascade);
+				
+			entity.HasMany(show => show.TicketOrders)
+				.WithOne(to => to.Show).OnDelete(DeleteBehavior.Restrict);
+
 		});
 
 		modelBuilder.Entity<TicketType>(entity => {
@@ -76,6 +79,13 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 			slot => slot.SlotNumber
 		);
 
+		modelBuilder.Entity<TicketOrderItem>(entity => {
+			// ReSharper disable once InvokeAsExtensionMethod
+			EntityTypeBuilderExtensions.HasKey(entity,
+				toi => toi.TicketOrder.Id,
+				toi => toi.TicketType.Id
+			);
+		});
 		modelBuilder.AddSampleData();
 	}
 }

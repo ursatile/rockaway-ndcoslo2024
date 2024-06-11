@@ -6,7 +6,7 @@ using Rockaway.WebApp.Models;
 namespace Rockaway.WebApp.Controllers;
 
 [Route("[action]/{venue}/{date}")]
-public class TicketsController(RockawayDbContext db) : Controller {
+public class TicketsController(RockawayDbContext db, IClock clock) : Controller {
 
 	private Task<Show?> FindShow(string venue, LocalDate date) => db.Shows
 		.Include(s => s.TicketTypes)
@@ -27,7 +27,9 @@ public class TicketsController(RockawayDbContext db) : Controller {
 	public async Task<IActionResult> Show(string venue, LocalDate date, Dictionary<Guid, int> tickets) {
 		var show = await FindShow(venue, date);
 		if (show == default) return NotFound();
-		//TODO: create orders, add to database, and redirect to checkout
-		return Ok(tickets);
+		var ticketOrder = show.CreateOrder(tickets, clock.GetCurrentInstant());
+		db.TicketOrders.Add(ticketOrder);
+		await db.SaveChangesAsync();
+		return RedirectToAction("Confirm", "Checkout", new { id = ticketOrder.Id });
 	}
 }

@@ -1,24 +1,41 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+using Mjml.Net;
+using RazorEngineCore;
 using Rockaway.WebApp.Data;
 using Rockaway.WebApp.Hosting;
 using Rockaway.WebApp.Services;
-
-var logger = CreateAdHocLogger<Program>();
+using Rockaway.WebApp.Services.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder.Services.AddRazorPages(options => options.Conventions.AuthorizeAreaFolder("admin", "/"));
+builder.Services.AddControllersWithViews(options => {
+	options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+builder.Services.AddSingleton<IStatusReporter>(new StatusReporter());
+builder.Services.AddSingleton<IClock>(SystemClock.Instance);
 
-builder.Services.AddControllersWithViews();
+#if DEBUG
+builder.Services.AddSingleton<IMailTemplateProvider>(new DebugMailTemplateProvider());
+#else
+builder.Services.AddSingleton<IMailTemplateProvider>(new ResourceMailTemplateProvider());
+#endif
+builder.Services.AddSingleton<IMailBodyRenderer, MailBodyRenderer>();
+builder.Services.AddSingleton<IRazorEngine, RazorEngine>();
+builder.Services.AddSingleton<IMjmlRenderer, MjmlRenderer>();
 
-builder.Services.AddRazorPages(options
-	=> options.Conventions.AuthorizeAreaFolder("admin", "/"));
+builder.Services.AddSingleton<IMailSender, SmtpMailSender>();
+var smtpSettings = new SmtpSettings();
+builder.Configuration.Bind("Smtp", smtpSettings);
+builder.Services.AddSingleton(smtpSettings);
+builder.Services.AddSingleton<ISmtpRelay, SmtpRelay>();
 
-builder.Services.AddSingleton<IStatusReporter, StatusReporter>();
-
-builder.Services.Configure<RouteOptions>(options
-	=> options.LowercaseUrls = true);
+#if DEBUG && !NCRUNCH
+builder.Services.AddSassCompiler();
+#endif
+var logger = CreateAdHocLogger<Program>();
 
 if (builder.Environment.UseSqlite()) {
 	logger.LogInformation("Using Sqlite database");
