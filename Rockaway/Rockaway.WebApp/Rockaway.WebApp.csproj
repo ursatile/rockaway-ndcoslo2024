@@ -9,6 +9,10 @@
 	<ItemGroup>
 		<Content Remove="wwwroot\scss\frontend.scss" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Components\TicketPicker.razor.css" />
+	</ItemGroup>
 	<ItemGroup>
 		<InternalsVisibleTo Include="Rockaway.WebApp.Tests" />
 	</ItemGroup>
@@ -35,6 +39,9 @@
 	</ItemGroup>
 	<ItemGroup>
 		<UpToDateCheckInput Remove="wwwroot\scss\frontend.scss" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Components\TicketPicker.razor.css" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="wwwroot\scss\frontend.scss" />

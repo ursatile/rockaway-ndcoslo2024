@@ -1,3 +1,5 @@
+using Rockaway.WebApp.Components;
+
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
@@ -58,6 +60,9 @@ builder.Services
 builder.Services.AddSassCompiler();
 #endif
 
+builder.Services.AddRazorComponents()
+	.AddInteractiveServerComponents();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -104,6 +109,9 @@ app.MapGet("/api/artists/{slug}/shows", (string slug, RockawayDbContext db) => {
 		Date = s.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
 	});
 });
+
+app.MapRazorComponents<App>()
+	.AddInteractiveServerRenderMode();
 
 app.Run();
 
