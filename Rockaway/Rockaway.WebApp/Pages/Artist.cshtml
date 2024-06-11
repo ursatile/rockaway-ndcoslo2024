@@ -3,3 +3,11 @@
 
 <h1>@Model.Artist.Name</h1>
 @Model.Artist.Description
+@if (Model.Artist.Endorsements.Any()) {
+	<h4>Supported By:</h4>
+	<ul>
+		@foreach (var brand in Model.Artist.Endorsements) {
+			<li>@brand.Product</li>
+		}
+	</ul>
+}

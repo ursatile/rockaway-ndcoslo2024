@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddRazorPages(options 
+builder.Services.AddRazorPages(options
 	=> options.Conventions.AuthorizeAreaFolder("admin", "/"));
 
 builder.Services.AddSingleton<IStatusReporter, StatusReporter>();

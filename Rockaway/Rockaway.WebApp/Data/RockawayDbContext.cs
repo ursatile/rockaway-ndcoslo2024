@@ -1,11 +1,12 @@
 // Rockaway.WebApp/Data/RockawayDbContext.cs
 
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rockaway.WebApp.Data.Entities;
-using System.Linq.Expressions;
+using Rockaway.WebApp.Data.Sample;
 
 namespace Rockaway.WebApp.Data;
 
@@ -40,7 +41,8 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 				.WithOne(s => s.HeadlineArtist)
 				.OnDelete(DeleteBehavior.Restrict);
 			entity.HasMany(a => a.Endorsements)
-				.WithMany(e => e.Artists);
+				.WithMany(e => e.Artists)
+				.UsingEntity(j => j.ToTable("Endorsement").HasData(SampleData.Endorsements));
 		});
 
 		modelBuilder.Entity<Venue>(entity => {
@@ -70,4 +72,3 @@ public class RockawayDbContext(DbContextOptions<RockawayDbContext> options)
 		modelBuilder.AddSampleData();
 	}
 }
-

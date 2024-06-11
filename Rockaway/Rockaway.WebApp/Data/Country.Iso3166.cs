@@ -252,6 +252,6 @@ public partial class Country {
 		new("YE", "Yemen"),
 		new("ZM", "Zambia"),
 		new("ZW", "Zimbabwe")
-// @formatter:on
+	// @formatter:on
 	];
 }

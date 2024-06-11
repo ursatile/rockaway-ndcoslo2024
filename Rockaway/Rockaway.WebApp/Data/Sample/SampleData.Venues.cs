@@ -9,7 +9,9 @@ public static partial class SampleData {
 		private static Guid NextId => TestGuid(seed++, 'e');
 
 		public static IEnumerable<Brand> AllBrands => [
-				Nike, Pingvin, PepsiCola
+				Nike,
+			Pingvin,
+			PepsiCola
 			];
 
 		public static Brand Nike = new(NextId, "Nike");
@@ -49,7 +51,15 @@ public static partial class SampleData {
 			"+44 20 8469 4382", "https://www.newcrossinn.com/");
 
 		public static Venue[] AllVenues => [
-			Electric, Bataclan, Columbia, Gagarin, JohnDee, Stengade, Barracuda, PubAnchor, NewCrossInn
+			Electric,
+			Bataclan,
+			Columbia,
+			Gagarin,
+			JohnDee,
+			Stengade,
+			Barracuda,
+			PubAnchor,
+			NewCrossInn
 		];
 	}
 }
