@@ -36,7 +36,7 @@ builder.Services
 	.AddDefaultIdentity<IdentityUser>()
 	.AddEntityFrameworkStores<RockawayDbContext>();
 
-#if DEBUG
+#if DEBUG && !NCRUNCH
 builder.Services.AddSassCompiler();
 #endif
 
