@@ -37,7 +37,7 @@ public static class SeedData {
 		venue.Address,
 		venue.City,
 		venue.PostalCode,
-		venue.CountryCode,
+		venue.CultureName,
 		venue.Telephone,
 		venue.WebsiteUrl
 	};

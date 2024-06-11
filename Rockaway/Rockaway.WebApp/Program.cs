@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,18 @@ app.MapAreaControllerRoute(
 app.MapRazorPages();
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 app.MapGet("/status", (IStatusReporter reporter) => reporter.GetStatus());
+
+app.MapGet("/api/artists/{slug}/shows", (string slug, RockawayDbContext db) => {
+	var artist = db.Artists
+		.Include(a => a.HeadlineShows)
+		.ThenInclude(show => show.Venue)
+		.FirstOrDefault(a => a.Slug == slug);
+	return artist.HeadlineShows.Select(s => new {
+		Venue = s.Venue.Name,
+		Address = s.Venue.FullAddress,
+		Date = s.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+	});
+});
 
 app.Run();
 
